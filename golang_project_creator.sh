@@ -56,3 +56,4 @@ EOF
 echo -e "\nGo project '$PROJECT_NAME' created successfully!"
 echo "Directory structure:"
 tree .
+echo ""

@@ -2,7 +2,7 @@
 
 set -e
 
-echo -e "\nHello, this is a setup agent to create a Go project interactively"
+echo -e "\nHello, this is a setup script to create Go projects interactively."
 echo -e "\nGithub username:"
 read GITHUB_USERNAME
 

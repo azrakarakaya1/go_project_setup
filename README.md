@@ -40,7 +40,7 @@ You will be asked for:
 
 ---
 
-## Project Structure
+## Project Structure
 
 After running the script, your Go project will have the following structure:
 

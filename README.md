@@ -20,10 +20,12 @@ It automatically:
 chmod +x golang_project_creator.sh
 ```
 
+
 ### 2. Run the script
 ```bash
 ./golang_project_creator.sh
 ```
+
 
 ### 3. Follow the promts
 You will be asked for:
@@ -31,7 +33,8 @@ You will be asked for:
 * Your project name
 
 
-### Example Output
+### Example Output
+
 
 ![Output](images/output.png)
 

@@ -31,7 +31,7 @@ You will be asked for:
 * Your project name
 
 
-#### Example Output
+### Example Output
 
 ![Output](images/output.png)
 

@@ -18,12 +18,12 @@ It automatically:
 ### 1. Make the script executable
 ```bash
 chmod +x golang_project_creator.sh
-
+```
 
 ### 2. Run the script
 ```bash
 ./golang_project_creator.sh
-
+```
 
 ### 3. Follow the promts
 You will be asked for:
@@ -41,12 +41,12 @@ You will be asked for:
 
 After running the script, your Go project will have the following structure:
 
-project_name/
-├── cmd/
-├── internal/
-├── pkg/
-├── go.mod
-└── .gitignore
+    project_name/
+    ├── cmd/
+    ├── internal/
+    ├── pkg/
+    ├── go.mod
+    └── .gitignore
 
 
 - **cmd/** – Contains the entry point(s) of your application. For example, `cmd/main.go` is where the `main()` function lives.  

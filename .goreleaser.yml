@@ -38,7 +38,7 @@ checksum:
   name_template: 'checksums.txt'
 
 snapshot:
-  version_template: "{{ incpatch .Version }}-next"
+  name_template: "{{ .Tag }}-next"
 
 changelog:
   sort: asc
@@ -52,7 +52,7 @@ changelog:
 
 release:
   github:
-    owner: azrakarakaya
+    owner: azrakarakaya1
     name: goscaffold
   draft: false
   prerelease: auto

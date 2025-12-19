@@ -1,59 +1,208 @@
-# Go Project Setup Script
+# goscaffold
 
-## Description
-This shell script helps you **create a new Go project interactively** with a standard directory structure and initialized Go module.
+[![CI](https://github.com/azrakarakaya1/goscaffold/actions/workflows/ci.yml/badge.svg)](https://github.com/azrakarakaya1/goscaffold/actions/workflows/ci.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/azrakarakaya1/goscaffold)](https://goreportcard.com/report/github.com/azrakarakaya1/goscaffold)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Go Version](https://img.shields.io/badge/Go-1.21+-00ADD8?style=flat&logo=go)](https://go.dev/)
 
-It automatically:
-- Prompts for your **GitHub username** and **project name**
-- Creates standard Go folders (`cmd`, `internal`, `pkg`)
-- Initializes a `go.mod` file with your GitHub path
-- Adds a sample `main.go` file
-- Generates a `.gitignore` file
-- Displays the created directory structure in the terminal
+A powerful CLI tool to scaffold Go projects with best-practice directory structures, templates, and DevOps configurations.
 
----
+## Features
+
+- **Multiple Project Templates**
+  - `basic` - Minimal Go project
+  - `cli` - CLI application with Cobra
+  - `api` - REST API with Chi router
+  - `grpc` - gRPC service with proto files
+  - `library` - Reusable Go library
+
+- **DevOps Integration**
+  - Makefile with common targets
+  - Dockerfile (multi-stage build)
+  - docker-compose.yml
+  - GitHub Actions CI workflow
+
+- **Code Quality Tools**
+  - golangci-lint configuration
+  - pre-commit hooks
+  - Test scaffolding
+
+- **Interactive Mode** - Guided setup with sensible defaults
+- **Non-Interactive Mode** - Perfect for automation and CI/CD
+
+## Installation
+
+### Using Go
+
+```bash
+go install github.com/azrakarakaya1/goscaffold@latest
+```
+
+### From Releases
+
+Download the binary for your platform from the [releases page](https://github.com/azrakarakaya1/goscaffold/releases).
+
+### From Source
+
+```bash
+git clone https://github.com/azrakarakaya1/goscaffold.git
+cd goscaffold
+go build -o goscaffold ./cmd/goscaffold
+```
 
 ## Usage
 
-Make the script executable:
+### Interactive Mode (Recommended for beginners)
+
 ```bash
-chmod +x golang_project_creator.sh
+goscaffold new
 ```
 
+You'll be prompted for:
+- Project name
+- GitHub username
+- Template selection
+- DevOps and quality tool options
 
-Run the script:
+### Command Line Mode
+
 ```bash
-./golang_project_creator.sh
+# Basic project
+goscaffold new myapp -g yourusername
+
+# REST API with all DevOps files
+goscaffold new myapi -t api -g yourusername --all-devops
+
+# CLI app with all quality tools
+goscaffold new mycli -t cli -g yourusername --all-quality
+
+# Full-featured project
+goscaffold new myproject -t api -g yourusername -D -Q --git
 ```
 
-You will be asked for:
-* Your GitHub username
-* Your project name
+### Flags
 
+| Flag | Short | Description |
+|------|-------|-------------|
+| `--template` | `-t` | Project template (basic\|cli\|api\|grpc\|library) |
+| `--github` | `-g` | GitHub username for module path |
+| `--module` | `-m` | Custom module path (overrides --github) |
+| `--makefile` | | Include Makefile |
+| `--docker` | | Include Dockerfile and docker-compose |
+| `--ci` | | Include GitHub Actions CI workflow |
+| `--all-devops` | `-D` | Include all DevOps files |
+| `--lint` | | Include golangci-lint config |
+| `--precommit` | | Include pre-commit hooks config |
+| `--tests` | | Include test file scaffolding |
+| `--all-quality` | `-Q` | Include all quality tools |
+| `--git` | | Initialize git repository |
+| `--no-interactive` | | Skip interactive prompts |
 
-**Example Output**
+## Generated Project Structure
 
+### API Template Example
 
-![Output](images/output.png)
+```
+myapi/
+├── cmd/
+│   └── myapi/
+│       └── main.go
+├── internal/
+│   ├── handler/
+│   │   └── handler.go
+│   ├── middleware/
+│   │   └── middleware.go
+│   └── router/
+│       └── router.go
+├── pkg/
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+├── go.mod
+├── Makefile
+├── Dockerfile
+├── docker-compose.yml
+├── .golangci.yml
+├── .pre-commit-config.yaml
+├── .gitignore
+└── README.md
+```
 
----
+## Examples
 
-## Project Structure
+### Create a REST API
 
-After running the script, your Go project will have the following structure:
+```bash
+goscaffold new userservice -t api -g myusername -D -Q
 
-    project_name/
-    ├── cmd/
-    ├── internal/
-    ├── pkg/
-    ├── go.mod
-    └── .gitignore
+cd userservice
+go mod tidy
+go run ./cmd/userservice
 
+# In another terminal
+curl http://localhost:8080/health
+```
 
-- **cmd/** – Contains the entry point(s) of your application. For example, `cmd/main.go` is where the `main()` function lives.  
-- **internal/** – Packages in this folder are **private to the project** and cannot be imported from other projects. Use it for core application logic.  
-- **pkg/** – Contains libraries or packages that can be shared and imported by other projects.  
-- **go.mod** – The Go module file, which defines the module path and tracks dependencies.  
-- **.gitignore** – Lists files and folders that Git should ignore (e.g., `bin/`, `vendor/`, temporary files).
+### Create a CLI Tool
 
-This structure follows common Go project conventions, making your project organized and maintainable.
+```bash
+goscaffold new mytool -t cli -g myusername -D -Q
+
+cd mytool
+go mod tidy
+go run ./cmd/mytool --help
+```
+
+### Create a Library
+
+```bash
+goscaffold new mylib -t library -g myusername -Q
+
+cd mylib
+go test ./...
+```
+
+## Development
+
+### Prerequisites
+
+- Go 1.21 or later
+
+### Building
+
+```bash
+make build
+```
+
+### Testing
+
+```bash
+make test
+```
+
+### Linting
+
+```bash
+make lint
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- [Cobra](https://github.com/spf13/cobra) - CLI framework
+- [Chi](https://github.com/go-chi/chi) - HTTP router
+- [promptui](https://github.com/manifoldco/promptui) - Interactive prompts
+- [color](https://github.com/fatih/color) - Colored terminal output

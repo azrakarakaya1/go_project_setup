@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+
+      - name: Install dependencies
+        run: go mod download
+
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v4
+        with:
+          version: latest
+
+      - name: Run tests
+        run: go test -v -race -coverprofile=coverage.out ./...
+
+      - name: Build
+        run: go build -v ./cmd/goscaffold
+
+  integration:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+
+      - name: Build goscaffold
+        run: go build -o goscaffold ./cmd/goscaffold
+
+      - name: Test basic template
+        run: |
+          ./goscaffold new testbasic -g testuser -t basic --no-interactive
+          cd testbasic && go mod tidy && go build .
+
+      - name: Test API template
+        run: |
+          ./goscaffold new testapi -g testuser -t api --no-interactive -D -Q
+          cd testapi && go mod tidy && go build ./cmd/testapi
